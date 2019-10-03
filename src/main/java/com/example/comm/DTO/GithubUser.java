@@ -4,6 +4,7 @@ public class GithubUser {
 
     private String login;
     private long id;
+    private String avatarUrl;
 
     public String getLogin() {
         return login;
@@ -19,5 +20,13 @@ public class GithubUser {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

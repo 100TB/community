@@ -8,43 +8,58 @@
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
 
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">社区</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索">
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid" style="margin:30px;background-color: white">
+    <div class="row">
+        <div class="col-md-12 col-lg-9 col-xs-12">
+            <span class="glyphicon glyphicon-list" aria-hidden="true" style="font-size: large">发现</span>
+            <div class="media" th:each="question : ${pagination.getQuestionExts()}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object"   th:src="${question.getUser().getAvatarUrl()}" style="width:100px">
+                    </a>
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/login/oauth/authorize?client_id=930c3d9ab9443d48d3db">登录</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">消息中心</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">退出登录</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.getQuestion().getTitle()}"></h4>
+                    <span class="text-desc"><span th:text="${question.getQuestion().getCommentCount()}"></span>个回复.<span th:text="${question.getQuestion().getViewCount()}"></span>个浏览<span></span></span>
+                </div>
+
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="'/?page=1'"  th:if="${pagination.showFirst}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        <a th:href="'/?page='+${pagination.page-1}"  th:if="${pagination.showPrevious}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="arr : ${pagination.getArrays()}"th:class="${pagination.page == arr}? 'active' : ''" >
+                        <a th:href="@{'/?page='+${arr}}" th:text="${arr}" ></a>
+                    </li>
+
+                    <li>
+                        <a th:href="'/?page='+${pagination.page+1}" th:if="${pagination.showNext}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                        <a th:href="'/?page='+${pagination.totalPages}" th:if="${pagination.showEnd}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-12 col-lg-3 col-xs-12">
+        </div>
+    </div>
+
+</div>
+
+
 </body>
 </html>
